@@ -6,16 +6,15 @@ const MessageForm = ({ sendMessage })=>{
   const [message, setMessage] = useState('')
 
   const handleSubmit = (e)=>{
-    e.preventDetault()
+    e.preventDefault()
     sendMessage(message)
   }
 
   return (
-    <form className="message_form" style={{ marginTop: '5px' }} onSubmit={ handleSubmit }>
+    <form className="message_form" method="POST" style={{ marginTop: '5px' }} onSubmit={ handleSubmit }>
       <div className="p-fluid">
         <div className="p-field">
           <InputTextarea
-
             value={ message }
             onChange={ (e) => setMessage(e.target.value) }
             autoResize={ true }

@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
+import socketIOClient from 'socket.io-client'
 import { Card } from 'primereact/card'
 import UserList from '../Common/UserList'
 import MessageForm from './MessageForm'
@@ -6,6 +7,13 @@ import {
   LeftMessage,
   RightMessage
 } from './Message'
+import {
+  CONNECTION,
+  SEND_MESSAGE
+} from './EventTypes'
+import {
+  useSelector
+} from "react-redux"
 
 const Chat = ()=>{
   const [currentUser, setCurrentUser] = useState('')
@@ -15,13 +23,22 @@ const Chat = ()=>{
     { id: 1, sender: { id: 1, first_name: 'Prateek' }, receiver: { id: 2, first_name: 'Karan' }, message: 'How are you?', time: '2020-07-07 12:04 PM' },
     { id: 1, sender: { id: 2, first_name: 'Karan' }, receiver: { id: 1, first_name: 'Prateek' }, message: 'fine, thank you', time: '2020-07-07 12:04 PM' },
   ])
+  const sender = useSelector(state => state.user.profile)
+  const socket = socketIOClient('http://localhost:8181');
+
+  useEffect(()=>{
+    socket.on(CONNECTION, ()=>{
+      console.log(socket.id)
+    })
+  }, [])
 
   const sendMessage = (message)=>{
     const payload = {
-      sender: {},
-      receiver: {},
+      sender: { ...sender },
+      receiver: { ...currentUser },
       message: message
     }
+    socket.emit(SEND_MESSAGE, payload)
   }
 
   return (

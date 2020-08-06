@@ -15,7 +15,7 @@ import {
 } from '../../Redux/Actions/userActions'
 import { Growl } from 'primereact/growl'
 
-const Login = ()=>{
+const Login = ({ history })=>{
   const [payload, setPayload] = useState({
     email: '',
     password: ''
@@ -35,6 +35,7 @@ const Login = ()=>{
         summary: 'Success Message',
         detail: 'login success'
       })
+      history.push("/home")
     }else if(status && status.user && status.user.length === 0){
       alert.current.show({
         life: 3000,

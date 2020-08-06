@@ -5,14 +5,18 @@ import bodyParser from 'koa-bodyparser'
 import DBPool from './utils/dbPool.js'
 import mongodb from 'mongodb'
 import cors from '@koa/cors'
+import socket from 'socket.io'
 import chatRouter from './routes/chat.js'
 import userRouter from './routes/user.js'
+import socketFunc from './socket/chat.js'
 
 const app = new koa()
 const server = http.createServer(app.callback())
+const io = socket(server)
 server.listen(8181)
 console.log('Server running...')
 
+socketFunc(io)
 app.use(logger())
 app.use(cors())
 app.use(bodyParser())
