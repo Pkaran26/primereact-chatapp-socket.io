@@ -1,0 +1,45 @@
+.header > div {
+  padding: 15px;
+}
+
+h2, h3, h4, ul {
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+.userlist {
+  height: 540px;
+  overflow: auto;
+  border: 1px solid #fff;
+}
+
+.userlist li{
+  font-size: 15px;
+  color: #FFB300;
+  padding: 10px;
+
+  cursor: pointer;
+}
+
+.container {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 40px;
+}
+
+.chat_container {
+  width: 500px;
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  right: 0;
+}
+
+.messages {
+  height: 450px;
+  border: 1px solid #fff;
+}
