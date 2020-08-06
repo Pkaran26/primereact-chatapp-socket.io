@@ -14,7 +14,7 @@ ul {
 .userlist {
   height: 540px;
   overflow: auto;
-  border: 1px solid #fff;
+  border: 1px solid #585858;
 }
 
 .userlist li{
@@ -39,7 +39,35 @@ ul {
   right: 0;
 }
 
+.chat_header {
+  border: 1px solid #585858;
+  padding: 5px;
+  border-bottom: 0;
+}
+
 .messages {
-  height: 450px;
-  border: 1px solid #fff;
+  height: 415px;
+  border: 1px solid #585858;
+  padding: 10px;
+}
+
+.message{
+  width: 100%;
+  margin: 5px;
+}
+
+.message > div {
+  padding: 5px;
+}
+
+.leftMessage {
+  background-color: #34A835 !important;
+  float: left;
+  max-width: 80%;
+}
+
+.rightMessage {
+  background-color: #116fbf !important;
+  float: right;
+  max-width: 80%;
 }

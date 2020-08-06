@@ -2,6 +2,10 @@ import React, { Fragment, useState } from 'react'
 import { Card } from 'primereact/card'
 import UserList from '../Common/UserList'
 import MessageForm from './MessageForm'
+import {
+  LeftMessage,
+  RightMessage
+} from './Message'
 
 const Chat = ()=>{
   const [currentUser, setCurrentUser] = useState('')
@@ -24,14 +28,23 @@ const Chat = ()=>{
     <Card className="chat_container">
       <div className="p-grid">
         <div className="p-col-8">
-          { currentUser?
-            <Fragment>
-              <h4>{`${ currentUser.first_name } ${ currentUser.last_name }`}</h4>
-              <hr />
-            </Fragment>
-          : ''}
+          <div className="chat_header">
+            <h3>{ currentUser?
+              `${ currentUser.first_name } ${ currentUser.last_name }`
+            : '...'}</h3>
+          </div>
           <div className="messages">
-
+            { messages && messages.length>0?
+              messages.map((e, i)=>(
+                <Fragment key={ i }>
+                { i%2===0?
+                  <LeftMessage { ...e } />
+                :
+                  <RightMessage { ...e } />
+                }
+                </Fragment>
+              ))
+            :null }
           </div>
           <MessageForm
             sendMessage={ sendMessage }
