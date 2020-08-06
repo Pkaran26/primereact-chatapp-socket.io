@@ -14,7 +14,8 @@ export const chat = Joi.object({
 export const getChat = async ctx=>{
   try {
     ctx.body = await ctx.db.collection('chat').find({
-      _id: ctx.params.id
+      sender: ctx.params.sender,
+      receiver: ctx.params.receiver
     }).toArray()
   } catch (e) {
     ctx.body = dbError(e)

@@ -28,22 +28,10 @@ export const doLogin = (payload) => dispatch =>{
   })
 }
 
-export const getProfile = (id) => dispatch =>{
-  dispatch({ type: PROFILE, payload: { loading: true } })
-
-  axios.get(`${ SERVER_URL }/user/profile/${ id }`)
-  .then(res=>{
-    dispatch({ type: PROFILE, payload: { loading: false, ...res.data } })
-  })
-  .catch(err=>{
-    dispatch({ type: PROFILE, payload: { loading: false, ...err } })
-  })
-}
-
 export const fetchUsers = (keyword) => dispatch =>{
   dispatch({ type: GET_USERS, payload: { loading: true } })
 
-  axios.get(`${ SERVER_URL }/user/list/${ keyword }`)
+  axios.get(`${ SERVER_URL }/user/${ keyword }`)
   .then(res=>{
     dispatch({ type: GET_USERS, payload: { loading: false, ...res.data } })
   })

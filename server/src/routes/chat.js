@@ -7,6 +7,6 @@ const chatRouter = new Router({
   prefix: '/chat'
 })
 
-chatRouter.get('/', getChat)
+chatRouter.get('/:sender/:receiver', getChat)
 
 export default chatRouter

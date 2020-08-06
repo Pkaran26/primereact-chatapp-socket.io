@@ -7,7 +7,7 @@ const { GET_ALL_USERS_MESSAGES } = CHAT
 export const fetchMessages = () => dispatch =>{
   dispatch({ type: GET_ALL_USERS_MESSAGES, payload: { loading: true } })
 
-  axios.get(`${ SERVER_URL }/messages`)
+  axios.get(`${ SERVER_URL }/chat/:sender/:receiver`)
   .then(res=>{
     dispatch({ type: GET_ALL_USERS_MESSAGES, payload: { loading: false, ...res.data } })
   })
