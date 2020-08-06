@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
-import Alerts from '../Common/Alerts'
 import { NavLink } from 'react-router-dom'
 import SideImg from './SideImg'
 import Loader from '../Common/Loader'
@@ -13,6 +12,7 @@ import {
 import {
   doSignup
 } from '../../Redux/Actions/userActions'
+import { Growl } from 'primereact/growl'
 
 const Signup = ()=>{
   const [payload, setPayload] = useState({
@@ -29,15 +29,21 @@ const Signup = ()=>{
 
   useEffect(()=>{
     setLoading(status.loading)
-    alert.current.show({
-      life: 3000,
-      severity: 'primary',
-      summary: 'Success Message',
-      detail: 'login success'
-    })
-    // if(status.status){
-    //
-    // }
+    if(status.status){
+      alert.current.show({
+        life: 3000,
+        severity: 'primary',
+        summary: 'Success Message',
+        detail: status.message
+      })
+    }else if(status.status === false){
+      alert.current.show({
+        life: 3000,
+        severity: 'danger',
+        summary: 'Error Message',
+        detail: status.message
+      })
+    }
     console.log(status);
   }, [status])
 
@@ -58,6 +64,7 @@ const Signup = ()=>{
       { loading?
         <Loader/>
       :null }
+      <Growl ref={ alert } />
       <div className="p-col-8">
         <SideImg />
       </div>
