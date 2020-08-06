@@ -1,0 +1,10 @@
+export const USER = {
+  SIGNUP: 'SIGNUP',
+  LOGIN: 'LOGIN',
+  PROFILE: 'PROFILE',
+  GET_USERS: 'GET_USERS'
+}
+
+export const CHAT = {
+  GET_ALL_USERS_MESSAGES: 'GET_ALL_USERS_MESSAGES',
+}
