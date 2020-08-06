@@ -10,7 +10,8 @@ import {
   useSelector
 } from "react-redux"
 import {
-  doLogin
+  doLogin,
+  setProfile
 } from '../../Redux/Actions/userActions'
 import { Growl } from 'primereact/growl'
 
@@ -27,6 +28,7 @@ const Login = ()=>{
   useEffect(()=>{
     setLoading(status.loading)
     if(status && status.user && status.user.length>0){
+      dispatch(setProfile(status.user[0]))
       alert.current.show({
         life: 3000,
         severity: 'primary',

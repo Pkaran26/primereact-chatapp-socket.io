@@ -2,7 +2,11 @@ import { USER } from '../Types'
 import axios from 'axios'
 import { SERVER_URL } from '../../Config'
 
-const { SIGNUP, LOGIN, GET_USERS } = USER
+const { SIGNUP, LOGIN, PROFILE, GET_USERS } = USER
+
+export const setProfile = (payload) => dispatch =>{
+  dispatch({ type: PROFILE, payload: payload })
+}
 
 export const doSignup = (payload) => dispatch =>{
   dispatch({ type: SIGNUP, payload: { loading: true } })
