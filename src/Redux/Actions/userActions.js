@@ -2,7 +2,7 @@ import { USER } from '../Types'
 import axios from 'axios'
 import { SERVER_URL } from '../../Config'
 
-const { SIGNUP, LOGIN, PROFILE, GET_USERS } = USER
+const { SIGNUP, LOGIN, GET_USERS } = USER
 
 export const doSignup = (payload) => dispatch =>{
   dispatch({ type: SIGNUP, payload: { loading: true } })
@@ -21,21 +21,21 @@ export const doLogin = (payload) => dispatch =>{
 
   axios.post(`${ SERVER_URL }/user/login`, payload)
   .then(res=>{
-    dispatch({ type: LOGIN, payload: { loading: false, ...res.data } })
+    dispatch({ type: LOGIN, payload: { loading: false, user: res.data } })
   })
   .catch(err=>{
-    dispatch({ type: LOGIN, payload: { loading: false, ...err } })
+    dispatch({ type: LOGIN, payload: { loading: false, user: [] } })
   })
 }
 
-export const fetchUsers = (keyword) => dispatch =>{
+export const fetchUsers = () => dispatch =>{
   dispatch({ type: GET_USERS, payload: { loading: true } })
 
-  axios.get(`${ SERVER_URL }/user/${ keyword }`)
+  axios.get(`${ SERVER_URL }/user`)
   .then(res=>{
-    dispatch({ type: GET_USERS, payload: { loading: false, ...res.data } })
+    dispatch({ type: GET_USERS, payload: res.data })
   })
   .catch(err=>{
-    dispatch({ type: GET_USERS, payload: { loading: false, ...err } })
+    dispatch({ type: GET_USERS, payload: [] })
   })
 }

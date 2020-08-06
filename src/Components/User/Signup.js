@@ -1,9 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
+import Alerts from '../Common/Alerts'
 import { NavLink } from 'react-router-dom'
 import SideImg from './SideImg'
+import Loader from '../Common/Loader'
+import {
+  useDispatch,
+  useSelector
+} from "react-redux"
+import {
+  doSignup
+} from '../../Redux/Actions/userActions'
 
 const Signup = ()=>{
   const [payload, setPayload] = useState({
@@ -13,6 +22,24 @@ const Signup = ()=>{
     password: '',
     cpassword: ''
   })
+  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
+  const status = useSelector(state => state.user.signup)
+  let alert = useRef(null)
+
+  useEffect(()=>{
+    setLoading(status.loading)
+    alert.current.show({
+      life: 3000,
+      severity: 'primary',
+      summary: 'Success Message',
+      detail: 'login success'
+    })
+    // if(status.status){
+    //
+    // }
+    console.log(status);
+  }, [status])
 
   const setter = (key, value)=>{
     setPayload({
@@ -23,11 +50,14 @@ const Signup = ()=>{
 
   const handleSubmit = (e)=>{
     e.preventDefault()
-
+    dispatch(doSignup(payload))
   }
 
   return (
     <form className="p-grid" onSubmit={ handleSubmit }>
+      { loading?
+        <Loader/>
+      :null }
       <div className="p-col-8">
         <SideImg />
       </div>

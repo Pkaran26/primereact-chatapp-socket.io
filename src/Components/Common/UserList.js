@@ -1,11 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
+import {
+  useDispatch,
+  useSelector
+} from "react-redux"
+import {
+  fetchUsers
+} from '../../Redux/Actions/userActions'
 
 const UserList = ({ returnUser })=>{
-  const [users, setUsers] = useState([
-    { id: 1, first_name: 'Prateek', last_name: 'Kaushik' },
-    { id: 2, first_name: 'Prateek', last_name: 'Kaushik' },
-    { id: 3, first_name: 'Prateek', last_name: 'Kaushik' },
-  ])
+  const dispatch = useDispatch()
+  const users = useSelector(state => state.user.users)
+
+  useEffect(()=>{
+    dispatch(fetchUsers())
+  }, [dispatch])
 
   return (
     <div className="userlist">

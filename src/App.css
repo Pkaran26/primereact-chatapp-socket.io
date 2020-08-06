@@ -71,3 +71,18 @@ ul {
   float: right;
   max-width: 80%;
 }
+
+.loader {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 20%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8)
+}
+
+.loader strong{
+  color: #fff;
+}

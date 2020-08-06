@@ -4,6 +4,7 @@ import logger from 'koa-logger'
 import bodyParser from 'koa-bodyparser'
 import DBPool from './utils/dbPool.js'
 import mongodb from 'mongodb'
+import cors from '@koa/cors'
 import chatRouter from './routes/chat.js'
 import userRouter from './routes/user.js'
 
@@ -13,6 +14,7 @@ server.listen(8181)
 console.log('Server running...')
 
 app.use(logger())
+app.use(cors())
 app.use(bodyParser())
 app.use( async (ctx, next)=>{
   ctx.db = await DBPool()

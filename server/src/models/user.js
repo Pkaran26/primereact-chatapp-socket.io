@@ -31,12 +31,17 @@ export const doSignup = async ctx=>{
   }
 
   try {
-    const result = await ctx.db.collection('user').insertOne({
-      ...value,
-    })
+    const check = await ctx.db.collection('user').find({ email: value.email }).toArray()
+    if(check && check.length == 0){
+      const result = await ctx.db.collection('user').insertOne({
+        ...value,
+      })
 
-    if(result && result.insertedCount){
-      ctx.body = dbMessage(true, 'signup success')
+      if(result && result.insertedCount){
+        ctx.body = dbMessage(true, 'signup success')
+      }
+    }else{
+      ctx.body = dbMessage(false, 'already exists')
     }
   } catch (e) {
     ctx.body = dbError(e)
