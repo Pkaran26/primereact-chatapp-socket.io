@@ -13,7 +13,9 @@ import {
   USER_DETAIL,
   GET_USERS,
   GET_MESSAGE,
-  SEND_MESSAGE
+  SEND_MESSAGE,
+  TYPING,
+  USER_TYPING
 } from './EventTypes'
 
 class Chat extends Component{
@@ -23,7 +25,8 @@ class Chat extends Component{
       currentUser: '',
       messages: '',
       socketId: '',
-      users: []
+      users: [],
+      typing: false
     }
     this.socket = socketIOClient('http://localhost:8181')
   }
@@ -42,11 +45,14 @@ class Chat extends Component{
     })
 
     this.socket.on(GET_USERS, (data)=>{
-      // const filtered = data.filter((e)=>{
-      //   return this.props.sender._id != e._id
-      // })
       this.setState({
         users: data
+      })
+    })
+
+    this.socket.on(USER_TYPING, (data)=>{
+      this.setState({
+        typing: data
       })
     })
 
@@ -70,8 +76,18 @@ class Chat extends Component{
     this.socket.emit(SEND_MESSAGE, payload)
   }
 
+  userTyping = (status)=>{
+    const payload = {
+      sender: { ...this.props.sender },
+      receiver: { ...this.state.currentUser },
+      typing: status
+    }
+
+    this.socket.emit(TYPING, payload)
+  }
+
   render(){
-    const { currentUser, messages, users } = this.state
+    const { currentUser, messages, users, typing } = this.state
     return (
       <Card className="chat_container">
         <div className="p-grid">
@@ -80,6 +96,9 @@ class Chat extends Component{
               <h3>{ currentUser?
                 `${ currentUser.first_name } ${ currentUser.last_name }`
               : '...'}</h3>
+              { typing?
+                <span>typing...</span>
+              :null }
             </div>
             <div className="messages">
               { messages && messages.length>0?
@@ -95,6 +114,7 @@ class Chat extends Component{
               :null }
             </div>
             <MessageForm
+              userTyping={ this.userTyping }
               sendMessage={ this.sendMessage }
             />
           </div>

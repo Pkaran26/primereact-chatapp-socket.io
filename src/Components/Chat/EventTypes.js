@@ -5,3 +5,6 @@ export const USER_DETAIL = 'USER_DETAIL'
 export const GET_USERS = 'GET_USERS'
 export const GET_MESSAGE = 'GET_MESSAGE'
 export const SEND_MESSAGE = 'SEND_MESSAGE'
+
+export const TYPING = 'TYPING'
+export const USER_TYPING = 'USER_TYPING'

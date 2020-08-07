@@ -19,6 +19,13 @@ const socketFunc = (io)=>{
       io.sockets.emit('GET_USERS', Array.from(users))
     })
 
+    socket.on('TYPING', function(payload){
+      const { receiver, typing } = payload
+      if(receiver.socket_id){
+        io.sockets.to(`${ receiver.socket_id }`).emit('USER_TYPING', typing)
+      }
+    })
+
     socket.on('SEND_MESSAGE', function(payload){
       const { receiver } = payload
       if(receiver.socket_id){
