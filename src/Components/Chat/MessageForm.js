@@ -25,6 +25,7 @@ const MessageForm = ({ sendMessage, userTyping })=>{
             onBlur={ (e) => userTyping(false) }
             autoResize={ true }
             required={ true }
+            style={{ maxHeight: '50px' }}
             placeholder="enter message here..."
           />
           <Button type="submit" label="Send"  />
