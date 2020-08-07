@@ -56,6 +56,7 @@ ul {
   height: 405px;
   border: 1px solid #585858;
   padding: 10px;
+  overflow: auto;
 }
 
 .message{
@@ -77,6 +78,15 @@ ul {
   background-color: #116fbf !important;
   float: right;
   max-width: 80%;
+}
+
+.message_count {
+  background: #e91224;
+  color: #fff;
+  padding: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 4px;
 }
 
 .loader {

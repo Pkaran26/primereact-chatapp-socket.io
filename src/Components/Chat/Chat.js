@@ -24,7 +24,7 @@ class Chat extends Component{
     super(props)
     this.state = {
       currentUser: '',
-      messages: '',
+      messages: [],
       socketId: '',
       users: [],
       typing: false
@@ -33,13 +33,14 @@ class Chat extends Component{
   }
 
   componentDidMount(){
+    const { sender } = this.props
+
     this.socket.on(CONNECTION, ()=>{
       this.setState({ socketId: this.socket.id })
-
-      const { sender } = this.props
       if(sender){
         this.socket.emit(USER_DETAIL, {
           ...sender,
+          message_count: 0,
           socket_id: this.socket.id
         })
       }
@@ -47,7 +48,6 @@ class Chat extends Component{
 
     this.socket.on(GET_USERS, (data)=>{
       if(data && data.length>0){
-        const { sender } = this.props
         const filteredUser = data.filter((e)=>{
           return e._id !== sender._id
         })
@@ -64,13 +64,24 @@ class Chat extends Component{
     })
 
     this.socket.on(GET_MESSAGE, (data)=>{
-      this.setState({
-        messages: [...this.state.messages, data]
-      })
+      const { currentUser, users } = this.state
+      if(currentUser){
+        this.setState({
+          messages: [...this.state.messages, data]
+        })
+      }else{
+        for (var i = 0; i < users.length; i++) {
+          if(users[i]._id === data.sender._id){
+            users[i].message_count = users[i].message_count + 1
+            this.setState({ users })
+            break
+          }
+        }
+      }
     })
   }
 
-  componentWillReceiveProps(nextProps){
+  UNSAFE_componentWillReceiveProps(nextProps){
     if(nextProps.oldMessages && nextProps.oldMessages.messages && nextProps.oldMessages.messages.length>0){
       this.setState({
         messages: nextProps.oldMessages.messages
@@ -82,6 +93,16 @@ class Chat extends Component{
     this.setState({ currentUser: e })
     const { getMessages, sender } = this.props
     getMessages(sender._id, e._id)
+    const { users } = this.state
+
+    for (var i = 0; i < users.length; i++) {
+      if(users[i]._id === e._id){
+        users[i].message_count = 0
+        this.setState({ users })
+        break
+      }
+    }
+
   }
 
   sendMessage = (message)=>{
