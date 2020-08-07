@@ -1,3 +1,6 @@
+import mongodb from 'mongodb'
+import DBPool from '../utils/dbPool.js'
+
 let connections = []
 let users = new Set()
 
@@ -26,10 +29,21 @@ const socketFunc = (io)=>{
       }
     })
 
-    socket.on('SEND_MESSAGE', function(payload){
-      const { receiver } = payload
+    socket.on('SEND_MESSAGE', async function(payload){
+      const { sender, receiver, message, time } = payload
       if(receiver.socket_id){
         io.sockets.to(`${ receiver.socket_id }`).emit('GET_MESSAGE', payload)
+      }
+      try {
+        const db = await DBPool()
+        const result = await db.collection('chat').insertOne({
+          sender: mongodb.ObjectId(sender._id),
+          receiver: mongodb.ObjectId(receiver._id),
+          message: message,
+          time: time
+        })
+      } catch (e) {
+        console.log(e);
       }
     })
   })
