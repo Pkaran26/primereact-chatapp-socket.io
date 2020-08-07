@@ -11,7 +11,11 @@ const UserList = ({ onlineUsers, returnUser })=>(
           </span>
         </li>
       ))
-    :null }
+    :
+      <li className="user" style={{ cursor: 'default' }}>
+        All users are offline
+      </li>
+    }
     </ul>
   </div>
 )
