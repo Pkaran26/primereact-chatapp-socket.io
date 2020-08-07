@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react'
 import socketIOClient from 'socket.io-client'
 import moment from 'moment'
 import { Card } from 'primereact/card'
+import { Button } from 'primereact/button'
 import UserList from '../Common/UserList'
 import MessageForm from './MessageForm'
 import {
@@ -103,8 +104,9 @@ class Chat extends Component{
   render(){
     const { currentUser, messages, users, typing } = this.state
     return (
-      <Card className="chat_container">
+      <Card className="chat_container" style={{ width: !currentUser? '200px': '500px'}}>
         <div className="p-grid">
+        { currentUser?
           <div className="p-col-8">
             <div className="chat_header">
               <h3>{ currentUser?
@@ -113,6 +115,7 @@ class Chat extends Component{
               { typing?
                 <span>typing...</span>
               :null }
+              <Button icon="pi pi-times-circle" onClick={ ()=> this.setState({ currentUser: '' }) } />
             </div>
             <div className="messages">
               { messages && messages.length>0?
@@ -132,7 +135,8 @@ class Chat extends Component{
               sendMessage={ this.sendMessage }
             />
           </div>
-          <div className="p-col-4">
+        :null }
+          <div className={ currentUser? "p-col-4": "p-col" }>
             <UserList
               onlineUsers={ users }
               returnUser={ this.getOldMessages }
