@@ -15,6 +15,7 @@ const Header = ()=>{
   const logout = ()=>{
     dispatch(deleteAll())
     dispatch(deleteMessages())
+    window.location.href = '/'
   }
 
   return (
