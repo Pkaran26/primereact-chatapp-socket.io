@@ -1,5 +1,6 @@
 import React, { Fragment, Component } from 'react'
 import socketIOClient from 'socket.io-client'
+import moment from 'moment'
 import { Card } from 'primereact/card'
 import UserList from '../Common/UserList'
 import MessageForm from './MessageForm'
@@ -22,6 +23,7 @@ class Chat extends Component{
       currentUser: '',
       messages: '',
       socketId: '',
+      users: []
     }
     this.socket = socketIOClient('http://localhost:8181')
   }
@@ -39,34 +41,37 @@ class Chat extends Component{
       }
     })
 
-
-
     this.socket.on(GET_USERS, (data)=>{
       // const filtered = data.filter((e)=>{
       //   return this.props.sender._id != e._id
       // })
-      // // setUsers(data)
-      console.log(data);
+      this.setState({
+        users: data
+      })
     })
 
-    // this.socket.on(GET_MESSAGE, (data)=>{
-    //   this.setState({
-    //     messages: [...this.state.messages, data]
-    //   })
-    // })
+    this.socket.on(GET_MESSAGE, (data)=>{
+      this.setState({
+        messages: [...this.state.messages, data]
+      })
+    })
   }
 
   sendMessage = (message)=>{
     const payload = {
       sender: { ...this.props.sender },
       receiver: { ...this.state.currentUser },
-      message: message
+      message: message,
+      time: moment().toISOString()
     }
+    this.setState({
+      messages: [...this.state.messages, payload]
+    })
     this.socket.emit(SEND_MESSAGE, payload)
   }
 
   render(){
-    const { currentUser, messages } = this.state
+    const { currentUser, messages, users } = this.state
     return (
       <Card className="chat_container">
         <div className="p-grid">
@@ -80,11 +85,11 @@ class Chat extends Component{
               { messages && messages.length>0?
                 messages.map((e, i)=>(
                   <Fragment key={ i }>
-                  { i%2===0?
-                    <LeftMessage { ...e } />
-                  :
-                    <RightMessage { ...e } />
-                  }
+                    { e.receiver._id !== currentUser._id?
+                      <LeftMessage { ...e } />
+                    :
+                      <RightMessage { ...e } />
+                    }
                   </Fragment>
                 ))
               :null }
@@ -95,6 +100,7 @@ class Chat extends Component{
           </div>
           <div className="p-col-4">
             <UserList
+              onlineUsers={ users }
               returnUser={ (e)=> this.setState({ currentUser: e }) }
             />
           </div>

@@ -16,15 +16,14 @@ const socketFunc = (io)=>{
     socket.on('USER_DETAIL', function(data){
       socket.user = data
       users.add(data)
-      socket.emit('GET_USERS', Array.from(users))
+      io.sockets.emit('GET_USERS', Array.from(users))
     })
 
     socket.on('SEND_MESSAGE', function(payload){
       const { receiver } = payload
       if(receiver.socket_id){
-        socket.to(`${ receiver.socket_id }`).emit('GET_MESSAGE', payload)
+        io.sockets.to(`${ receiver.socket_id }`).emit('GET_MESSAGE', payload)
       }
-      console.log(payload)
     })
   })
 }
