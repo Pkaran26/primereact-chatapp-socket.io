@@ -46,9 +46,15 @@ class Chat extends Component{
     })
 
     this.socket.on(GET_USERS, (data)=>{
-      this.setState({
-        users: data
-      })
+      if(data && data.length>0){
+        const { sender } = this.props
+        const filteredUser = data.filter((e)=>{
+          return e._id !== sender._id
+        })
+        this.setState({
+          users: filteredUser
+        })
+      }
     })
 
     this.socket.on(USER_TYPING, (data)=>{
