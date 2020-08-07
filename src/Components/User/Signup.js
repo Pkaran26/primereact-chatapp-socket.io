@@ -27,6 +27,7 @@ const Signup = ({ history })=>{
   const status = useSelector(state => state.user.signup)
   let alert = useRef(null)
 
+
   useEffect(()=>{
     setLoading(status.loading)
     if(status.status){
@@ -45,6 +46,7 @@ const Signup = ({ history })=>{
         detail: status.message
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status])
 
   const setter = (key, value)=>{

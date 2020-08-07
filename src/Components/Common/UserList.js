@@ -1,28 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import {
-  useDispatch,
-  useSelector
-} from "react-redux"
-import {
-  fetchUsers
-} from '../../Redux/Actions/userActions'
 
-const UserList = ({ socket, returnUser })=>{
-  const dispatch = useDispatch()
-  const list = useSelector(state => state.user.users)
+const UserList = ({ onlineUsers, returnUser })=>{
   const [users, setUsers] = useState([])
 
   useEffect(()=>{
-    dispatch(fetchUsers())
-  }, [dispatch])
-
-  useEffect(()=>{
-    setUsers(list)
-  }, [list])
-
-  useEffect(()=>{
-
-  }, [])
+    setUsers(onlineUsers)
+  }, [onlineUsers])
 
   return (
     <div className="userlist">

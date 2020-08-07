@@ -44,6 +44,7 @@ const Login = ({ history })=>{
         detail: 'login error'
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status])
 
   const setter = (key, value)=>{
