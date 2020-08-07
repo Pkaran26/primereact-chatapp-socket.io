@@ -2,7 +2,7 @@ import { USER } from '../Types'
 import axios from 'axios'
 import { SERVER_URL } from '../../Config'
 
-const { SIGNUP, LOGIN, PROFILE, GET_USERS } = USER
+const { SIGNUP, LOGIN, PROFILE, GET_USERS, LOGOUT } = USER
 
 export const setProfile = (payload) => dispatch =>{
   dispatch({ type: PROFILE, payload: payload })
@@ -42,4 +42,8 @@ export const fetchUsers = () => dispatch =>{
   .catch(err=>{
     dispatch({ type: GET_USERS, payload: [] })
   })
+}
+
+export const deleteAll = () => dispatch =>{
+  dispatch({ type: LOGOUT })
 }

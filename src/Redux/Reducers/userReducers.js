@@ -1,6 +1,6 @@
 import { USER } from '../Types'
 
-const { SIGNUP, LOGIN, PROFILE, GET_USERS } = USER
+const { SIGNUP, LOGIN, PROFILE, GET_USERS, LOGOUT } = USER
 
 const initialState = {
   signup: '',
@@ -19,6 +19,8 @@ const userReducer = (state = initialState, action)=>{
       return { ...state, profile: action.payload }
     case GET_USERS:
       return { ...state, users: action.payload }
+    case LOGOUT:
+      return initialState
     default:
       return state
   }

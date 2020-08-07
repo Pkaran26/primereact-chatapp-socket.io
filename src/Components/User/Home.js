@@ -16,9 +16,11 @@ const Home = ({ history })=>{
 
   return (
     <div>
+      { sender?
       <Chat
         sender={ sender }
       />
+      :null }
     </div>
   )
 }
