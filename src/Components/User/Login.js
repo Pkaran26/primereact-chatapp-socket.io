@@ -44,7 +44,6 @@ const Login = ({ history })=>{
         detail: 'login error'
       })
     }
-    console.log(status);
   }, [status])
 
   const setter = (key, value)=>{

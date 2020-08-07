@@ -14,7 +14,7 @@ import {
 } from '../../Redux/Actions/userActions'
 import { Growl } from 'primereact/growl'
 
-const Signup = ()=>{
+const Signup = ({ history })=>{
   const [payload, setPayload] = useState({
     email: '',
     first_name: '',
@@ -36,6 +36,7 @@ const Signup = ()=>{
         summary: 'Success Message',
         detail: status.message
       })
+      history.push("/")
     }else if(status.status === false){
       alert.current.show({
         life: 3000,
@@ -44,7 +45,6 @@ const Signup = ()=>{
         detail: status.message
       })
     }
-    console.log(status);
   }, [status])
 
   const setter = (key, value)=>{

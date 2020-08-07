@@ -8,15 +8,16 @@ const Home = ({ history })=>{
   const sender = useSelector(state => state.user.profile)
 
   useEffect(()=>{
-    if(Object.keys(sender).length === 0){
+    if(!sender){
       history.push('/')
     }
-    console.log(sender);
   }, [])
 
   return (
     <div>
-      <Chat />
+      <Chat
+        sender={ sender }
+      />
     </div>
   )
 }

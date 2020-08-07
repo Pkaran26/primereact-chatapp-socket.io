@@ -5,7 +5,7 @@ const { SIGNUP, LOGIN, PROFILE, GET_USERS } = USER
 const initialState = {
   signup: '',
   login: '',
-  profile: {},
+  profile: '',
   users: []
 }
 
