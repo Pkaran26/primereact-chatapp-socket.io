@@ -30,6 +30,7 @@ class Chat extends Component{
       typing: false
     }
     this.socket = socketIOClient('http://localhost:8181')
+    this.messagesEnd = React.createRef()
   }
 
   componentDidMount(){
@@ -69,6 +70,7 @@ class Chat extends Component{
         this.setState({
           messages: [...this.state.messages, data]
         })
+        this.scrollToBottom()
       }else{
         for (var i = 0; i < users.length; i++) {
           if(users[i]._id === data.sender._id){
@@ -86,6 +88,7 @@ class Chat extends Component{
       this.setState({
         messages: nextProps.oldMessages.messages
       })
+      this.scrollToBottom()
     }
   }
 
@@ -102,7 +105,6 @@ class Chat extends Component{
         break
       }
     }
-
   }
 
   sendMessage = (message)=>{
@@ -116,6 +118,7 @@ class Chat extends Component{
       messages: [...this.state.messages, payload]
     })
     this.socket.emit(SEND_MESSAGE, payload)
+    this.scrollToBottom()
   }
 
   userTyping = (status)=>{
@@ -126,6 +129,12 @@ class Chat extends Component{
     }
 
     this.socket.emit(TYPING, payload)
+  }
+
+  scrollToBottom = () => {
+    setTimeout(()=>{
+      this.messagesEnd.current.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
   }
 
   render(){
@@ -156,6 +165,9 @@ class Chat extends Component{
                   </Fragment>
                 ))
               :null }
+              <div style={{ float:"left", clear: "both" }}
+                ref={ this.messagesEnd }>
+              </div>
             </div>
             <MessageForm
               userTyping={ this.userTyping }
