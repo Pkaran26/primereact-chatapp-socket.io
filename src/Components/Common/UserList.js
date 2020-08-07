@@ -7,7 +7,10 @@ const UserList = ({ onlineUsers, returnUser })=>(
       onlineUsers.map((e, i)=>(
         <li className="user" onClick={ (el)=> returnUser(e) } key={ i }>
           <span>
-            { e.first_name } { e.last_name } <span className="message_count">{ e.message_count }</span>
+            { e.first_name } { e.last_name }&nbsp;
+            { e.message_count>0?
+              <span className="message_count">{ e.message_count }</span>
+            :null }
           </span>
         </li>
       ))
