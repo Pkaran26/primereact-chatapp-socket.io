@@ -63,6 +63,20 @@ class Chat extends Component{
     })
   }
 
+  componentWillReceiveProps(nextProps){
+    if(nextProps.oldMessages && nextProps.oldMessages.messages && nextProps.oldMessages.messages.length>0){
+      this.setState({
+        messages: nextProps.oldMessages.messages
+      })
+    }
+  }
+
+  getOldMessages = (e)=>{
+    this.setState({ currentUser: e })
+    const { getMessages, sender } = this.props
+    getMessages(sender._id, e._id)
+  }
+
   sendMessage = (message)=>{
     const payload = {
       sender: { ...this.props.sender },
@@ -121,7 +135,7 @@ class Chat extends Component{
           <div className="p-col-4">
             <UserList
               onlineUsers={ users }
-              returnUser={ (e)=> this.setState({ currentUser: e }) }
+              returnUser={ this.getOldMessages }
             />
           </div>
         </div>
